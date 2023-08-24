@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<h2 style="color: green;">{{ get_flashed_messages()[0] }}</h2>
+
 <h1> {{ title }}</h1>
 <p>
   {{ instructions }}
@@ -10,7 +12,7 @@
     DO NOT CHANGE THE FORM ACTION OR METHOD
     You'll need to write the applicable code to handle this request
    -->
-<form action="/questions/0" method="GET">
+<form action="/begin" method="POST">
   <button>Start!</button>
 </form>
 

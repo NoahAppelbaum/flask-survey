@@ -12,11 +12,16 @@ debug = DebugToolbarExtension(app)
 @app.get('/')
 def start_survey():
     """Displays survey start page"""
-    # need title and instructions
-    session["responses"] = []
+
     return render_template("survey_start.html",
                            title=survey.title,
                            instructions=survey.instructions)
+
+
+@app.post("/begin")
+def reset_and_start():
+    session["responses"] = []
+    return redirect("/questions/0")
 
 
 @app.get("/questions/<int:question_number>")
@@ -24,13 +29,20 @@ def show_question(question_number):
     """Displays current survey question"""
 
     if question_number is not len(session["responses"]):
+        if len(session["responses"]) == 0:
+            flash("Press 'start survey' for a thrilling time")
+            return redirect("/")
+        else:
+            flash("Make sure you answer all the questions in order!")
         return redirect(f"/questions/{len(session['responses'])}")
-    elif len(session["responses"]) >= len(survey.questions):
+
+    if len(session["responses"]) >= len(survey.questions):
         return redirect("/thank-you")
 
+    question = survey.questions[question_number]
     return render_template("question.html",
                            question_number=question_number,
-                           question=survey.questions[question_number])
+                           question=question)
 
 
 @app.post("/answer/<int:question_number>")
