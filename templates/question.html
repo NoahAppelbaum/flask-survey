@@ -8,7 +8,7 @@
   <!-- you should have one item like this for every choice -->
   <p>
     {% for choice in question.choices %}
-    <input type="radio" name="{{ question_number }}" value="{{ choice }}">
+    <input type="radio" name="answer" value="{{ choice }}">
     {{ choice }}
     {% endfor %}
   </p>
